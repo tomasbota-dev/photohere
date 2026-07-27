@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { parties, partyMembers, profiles } from "@/lib/schema";
@@ -10,8 +10,8 @@ import { eq } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-  const env = getRequestContext().env as Env;
-  const body = await req.json().catch(() => ({}));
+  const env = getCloudflareContext().env as Env;
+  const body: any = await req.json().catch(() => ({}));
   const title = String(body.title ?? "").trim().slice(0, 80);
   const nickname = String(body.nickname ?? "").trim().slice(0, 40) || null;
   if (!title) return NextResponse.json({ error: "title required" }, { status: 400 });

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { parties, partyMembers } from "@/lib/schema";
@@ -12,7 +12,7 @@ export const runtime = "edge";
 
 export default async function PartyPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const db = getDb(env);
 
   const partyRows = await db.select().from(parties).where(eq(parties.code, code.toUpperCase())).limit(1);

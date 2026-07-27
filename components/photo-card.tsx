@@ -14,7 +14,7 @@ export function PhotoCard({ photo, onOpen, onLike }: { photo: any; onOpen: () =>
       if (entries[0].isIntersecting && !url && !loading) {
         setLoading(true);
         const r = await fetch(`/api/photo-url?id=${photo.id}`);
-        const data = await r.json();
+        const data: any = await r.json();
         setUrl(data.url);
         setLoading(false);
         obs.disconnect();

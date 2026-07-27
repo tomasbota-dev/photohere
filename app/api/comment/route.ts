@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { comments, photos, partyMembers, profiles } from "@/lib/schema";
@@ -9,8 +9,8 @@ import { eq, and, desc } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-  const env = getRequestContext().env as Env;
-  const body = await req.json().catch(() => ({}));
+  const env = getCloudflareContext().env as Env;
+  const body: any = await req.json().catch(() => ({}));
   const photoId = String(body.photoId ?? "");
   const text = String(body.body ?? "").trim().slice(0, 500);
   if (!photoId || !text) return NextResponse.json({ error: "fields required" }, { status: 400 });
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const url = new URL(req.url);
   const photoId = url.searchParams.get("photoId");
   if (!photoId) return NextResponse.json({ error: "photoId required" }, { status: 400 });

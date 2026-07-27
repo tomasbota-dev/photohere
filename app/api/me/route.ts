@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { profiles, parties, partyMembers } from "@/lib/schema";
@@ -9,7 +9,7 @@ import { eq, desc } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function GET() {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const profileId = await getEffectiveProfileId(env);
   if (!profileId) return NextResponse.json(null);
   const db = getDb(env);

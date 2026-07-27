@@ -26,7 +26,7 @@ export function UploadButton({ partyCode }: { partyCode: string }) {
           body: JSON.stringify({ partyCode, contentType: file.type, contentLength: file.size }),
         });
         if (!r1.ok) throw new Error("upload-url failed");
-        const { uploadUrl, key } = await r1.json();
+        const { uploadUrl, key }: { uploadUrl: string; key: string } = await r1.json();
         const r2 = await fetch(uploadUrl, { method: "PUT", body: file, headers: { "Content-Type": file.type } });
         if (!r2.ok) throw new Error("R2 PUT failed");
         const dims = await readDims(file).catch(() => ({ width: null, height: null }));

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { magicLinks, profiles } from "@/lib/schema";
@@ -10,7 +10,7 @@ import { sha256 } from "@/lib/utils";
 export const runtime = "edge";
 
 export async function GET(req: Request) {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const url = new URL(req.url);
   const token = url.searchParams.get("token");
   if (!token) return NextResponse.redirect(`${env.APP_URL}/auth/request?error=missing-token`);

@@ -20,7 +20,7 @@ export function CreateForm() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, nickname }),
     });
-    const data = await res.json();
+    const data: any = await res.json();
     setSubmitting(false);
     if (!res.ok) {
       toast({ title: "Could not create party", description: data.error });

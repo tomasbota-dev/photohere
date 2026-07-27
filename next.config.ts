@@ -4,9 +4,7 @@ const config: NextConfig = {
   images: {
     unoptimized: true,
   },
-  experimental: {
-    nodeMiddleware: false,
-  },
+
 };
 
 export default config;

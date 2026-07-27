@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { parties, partyMembers, profiles } from "@/lib/schema";
@@ -10,7 +10,7 @@ import { eq, desc } from "drizzle-orm";
 export const runtime = "edge";
 
 export default async function MePage() {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const profileId = await getEffectiveProfileId(env);
   const db = getDb(env);
 

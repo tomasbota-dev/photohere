@@ -24,16 +24,19 @@ export function Lightbox({ photo, onClose, onLike, onDelete, isAuthor }: Lightbo
     setUrl(null); setDlUrl(null); setComments([]);
     (async () => {
       const r1 = await fetch(`/api/photo-url?id=${photo.id}`);
-      setUrl((await r1.json()).url);
+      const d1: any = await r1.json();
+      setUrl(d1.url);
       const r2 = await fetch(`/api/comment?photoId=${photo.id}`);
-      setComments((await r2.json()).comments);
+      const d2: any = await r2.json();
+      setComments(d2.comments);
     })();
   }, [photo?.id]);
 
   async function doDownload() {
     if (!dlUrl) {
       const r = await fetch(`/api/photo-download?id=${photo.id}`);
-      setDlUrl((await r.json()).url);
+      const d: any = await r.json();
+      setDlUrl(d.url);
     }
     if (dlUrl) window.location.href = dlUrl;
   }

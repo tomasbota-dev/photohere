@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { photos, partyMembers, parties, likes, comments, profiles } from "@/lib/schema";
@@ -10,7 +10,7 @@ import { eq, and, desc, sql, inArray } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function GET(req: Request) {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const url = new URL(req.url);
   const partyCode = (url.searchParams.get("party") ?? "").toUpperCase();
   if (!partyCode) return NextResponse.json({ error: "party required" }, { status: 400 });
@@ -67,8 +67,8 @@ export async function GET(req: Request) {
 }
 
 export async function POST(req: Request) {
-  const env = getRequestContext().env as Env;
-  const body = await req.json().catch(() => ({}));
+  const env = getCloudflareContext().env as Env;
+  const body: any = await req.json().catch(() => ({}));
   const partyCode = String(body.partyCode ?? "").toUpperCase();
   const key = String(body.key ?? "");
   const bytes = Number(body.bytes ?? 0);

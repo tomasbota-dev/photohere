@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { comments } from "@/lib/schema";
@@ -9,8 +9,8 @@ import { eq } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-  const env = getRequestContext().env as Env;
-  const body = await req.json().catch(() => ({}));
+  const env = getCloudflareContext().env as Env;
+  const body: any = await req.json().catch(() => ({}));
   const id = String(body.id ?? "");
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
   const profileId = await getEffectiveProfileId(env);

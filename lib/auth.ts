@@ -73,7 +73,6 @@ export async function getCurrentProfileIdFromSession(env: Env): Promise<{ profil
   const newExp = Date.now() + SESSION_TTL_MS;
   await db.update(sessions).set({ expiresAt: newExp }).where(eq(sessions.tokenHash, tokenHash));
 
-  const cookieStore = await cookies();
   cookieStore.set(PROFILE_COOKIE, row.profileId, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",

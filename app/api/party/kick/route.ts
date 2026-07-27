@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { parties, partyMembers } from "@/lib/schema";
@@ -9,8 +9,8 @@ import { eq, and } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function POST(req: Request) {
-  const env = getRequestContext().env as Env;
-  const body = await req.json().catch(() => ({}));
+  const env = getCloudflareContext().env as Env;
+  const body: any = await req.json().catch(() => ({}));
   const partyCode = String(body.partyCode ?? "").toUpperCase();
   const targetProfileId = String(body.profileId ?? "");
   if (!partyCode || !targetProfileId) return NextResponse.json({ error: "fields required" }, { status: 400 });

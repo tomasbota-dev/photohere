@@ -20,7 +20,7 @@ export function JoinForm({ initialCode = "" }: { initialCode?: string }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ code, nickname }),
     });
-    const data = await res.json();
+    const data: any = await res.json();
     setSubmitting(false);
     if (!res.ok) {
       toast({ title: "Could not join", description: data.error });

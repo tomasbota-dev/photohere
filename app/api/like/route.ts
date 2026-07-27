@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { likes, photos, partyMembers } from "@/lib/schema";
@@ -18,8 +18,8 @@ async function assertMembership(env: Env, photoId: string, profileId: string) {
 }
 
 export async function POST(req: Request) {
-  const env = getRequestContext().env as Env;
-  const body = await req.json().catch(() => ({}));
+  const env = getCloudflareContext().env as Env;
+  const body: any = await req.json().catch(() => ({}));
   const photoId = String(body.photoId ?? "");
   if (!photoId) return NextResponse.json({ error: "photoId required" }, { status: 400 });
   const profileId = await getEffectiveProfileId(env);
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const url = new URL(req.url);
   const photoId = url.searchParams.get("photoId");
   if (!photoId) return NextResponse.json({ error: "photoId required" }, { status: 400 });

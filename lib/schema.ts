@@ -1,7 +1,7 @@
 import { sqliteTable, text, integer, primaryKey } from "drizzle-orm/sqlite-core";
 import { sql } from "drizzle-orm";
 
-const now = () => sql`(unixepoch() * 1000)`;
+const now = sql`(unixepoch() * 1000)`;
 
 export const profiles = sqliteTable("profiles", {
   id: text("id").primaryKey(),

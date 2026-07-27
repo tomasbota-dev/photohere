@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getRequestContext } from "@opennextjs/cloudflare";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Env } from "@/lib/db";
 import { getDb } from "@/lib/db";
 import { photos, partyMembers } from "@/lib/schema";
@@ -10,7 +10,7 @@ import { eq, and } from "drizzle-orm";
 export const runtime = "edge";
 
 export async function GET(req: Request) {
-  const env = getRequestContext().env as Env;
+  const env = getCloudflareContext().env as Env;
   const url = new URL(req.url);
   const id = url.searchParams.get("id");
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });

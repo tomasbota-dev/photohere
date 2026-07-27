@@ -21,7 +21,7 @@ export function PartyGallery({ code, title, expiresAt, role, currentProfileId }:
     const res = await fetch(`/api/photos?party=${code}`);
     if (res.status === 403) { r.push(`/j/${code}`); return; }
     if (res.ok) {
-      const data = await res.json();
+      const data: any = await res.json();
       setPhotos(data.photos);
     } else {
       setPhotos([]);
