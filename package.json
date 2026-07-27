@@ -5,7 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "build:worker": "opennextjs-cloudflare && wrangler pages build",
+    "preview": "wrangler pages dev",
+    "deploy": "opennextjs-cloudflare && wrangler pages deploy",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate:local": "wrangler d1 migrations apply photohere-db --local",
+    "db:migrate:remote": "wrangler d1 migrations apply photohere-db --remote"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1096.0",
