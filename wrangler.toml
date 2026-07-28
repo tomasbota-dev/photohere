@@ -6,11 +6,12 @@ pages_build_output_dir = ".open-next"
 [vars]
 APP_URL = "http://localhost:3000"
 RESEND_FROM = "onboarding@resend.dev"
+R2_BUCKET_NAME = "photohere-photos"
 
 [[d1_databases]]
 binding = "DB"
 database_name = "photohere-db"
-database_id = "placeholder-replace-after-create"
+database_id = "a33a2124-95e5-4ceb-83ef-59f1d97c799e"
 migrations_dir = "drizzle"
 
 [[r2_buckets]]
