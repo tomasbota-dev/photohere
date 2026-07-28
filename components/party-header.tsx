@@ -13,7 +13,7 @@ export function PartyHeader({ code, title, expiresAt, role }: { code: string; ti
       <div className="flex items-center gap-3 flex-wrap">
         <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
         <ExpiryPill expiresAt={expiresAt} />
-        {role === "host" && <span className="text-xs px-2 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30">Host</span>}
+        {role === "host" && <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">Host</span>}
       </div>
       <div className="flex items-center gap-2 text-sm">
         <code className="font-mono text-lg tracking-wider bg-muted px-3 py-1.5 rounded-lg">{code}</code>

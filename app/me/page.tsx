@@ -31,7 +31,7 @@ export default async function MePage() {
     <main className="mx-auto max-w-3xl px-6 py-12 space-y-6">
       <header className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">My parties</h1>
-        {profile && <p className="text-sm text-muted-foreground">{profile.isAnonymous ? "Anonymous" : profile.email} · <Link href="/auth/request" className="underline">{profile.isAnonymous ? "Sign in" : "Switch account"}</Link></p>}
+        {profile && <p className="text-sm text-muted-foreground">{profile.isAnonymous ? "Anonymous" : profile.email}</p>}
       </header>
       {myParties.length === 0 ? (
         <p className="text-muted-foreground">You haven't joined any parties yet. <Link href="/" className="underline">Get started</Link>.</p>
@@ -42,7 +42,7 @@ export default async function MePage() {
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <Link href={`/p/${p.code}`} className="font-medium hover:underline">{p.title}</Link>
-                  {p.role === "host" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/30">host</span>}
+                  {p.role === "host" && <span className="text-xs px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/30">host</span>}
                 </div>
                 <div className="text-xs text-muted-foreground font-mono">{p.code}</div>
               </div>

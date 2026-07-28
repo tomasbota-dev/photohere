@@ -1,9 +1,14 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
+import type { Env } from "@/lib/db";
+import { getDb } from "@/lib/db";
+import { profiles } from "@/lib/schema";
+import { getCurrentProfileIdFromSession } from "@/lib/auth";
+import { eq } from "drizzle-orm";
 import { Providers } from "./providers";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { SiteHeader, type HeaderProfile } from "@/components/site-header";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,20 +16,32 @@ export const metadata: Metadata = {
   description: "Create a party, share the code, collect every photo from everyone.",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafaf9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0b" },
+  ],
+  colorScheme: "dark light",
+};
+
+export const runtime = "edge";
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const env = getCloudflareContext().env as Env;
+  const session = await getCurrentProfileIdFromSession(env);
+  let profile: HeaderProfile | null = null;
+  if (session) {
+    const rows = await getDb(env).select().from(profiles).where(eq(profiles.id, session.profileId)).limit(1);
+    if (rows.length > 0) {
+      profile = { email: rows[0].email, isAnonymous: rows[0].isAnonymous === 1 };
+    }
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${GeistSans.variable} ${GeistMono.variable} font-sans antialiased`}>
         <Providers>
-          <header className="sticky top-0 z-40 border-b border-border/50 backdrop-blur bg-background/80">
-            <div className="mx-auto max-w-6xl px-6 h-14 flex items-center justify-between">
-              <Link href="/" className="font-mono text-sm tracking-tight">photohere</Link>
-              <div className="flex items-center gap-1">
-                <Link href="/me" className="text-sm text-muted-foreground hover:text-foreground px-2">My parties</Link>
-                <ThemeToggle />
-              </div>
-            </div>
-          </header>
+          <SiteHeader profile={profile} />
           {children}
         </Providers>
       </body>

@@ -6,11 +6,6 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <div className="mx-auto max-w-6xl px-6 py-16 lg:py-24 space-y-16">
-        <header className="flex items-center justify-between">
-          <span className="font-mono text-sm tracking-tight">photohere</span>
-          <Link href="/auth/request" className="text-sm text-muted-foreground hover:text-foreground">Sign in</Link>
-        </header>
-
         <section className="max-w-2xl space-y-8">
           <h1 className="text-5xl lg:text-6xl font-semibold tracking-tight leading-[1.05]">
             Every photo from everyone. <span className="text-muted-foreground">One link.</span>
